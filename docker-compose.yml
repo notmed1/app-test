@@ -3,11 +3,14 @@ version: '2'
 services:
   mariadb:
     image: docker.io/bitnami/mariadb:10.6
+    ports:
+      - '3306:3306'
     environment:
       # ALLOW_EMPTY_PASSWORD is recommended only for development.
       - ALLOW_EMPTY_PASSWORD=yes
       - MARIADB_USER=mariadb_user
-      - MARIADB_DATABASE=bitnami_myapp
+      - MARIADB_DATABASE=db_test
+    container_name: mariadb
   myapp:
     image: docker.io/bitnami/symfony:6.1
     ports:
@@ -18,9 +21,10 @@ services:
       - SYMFONY_DATABASE_HOST=mariadb
       - SYMFONY_DATABASE_PORT_NUMBER=3306
       - SYMFONY_DATABASE_USER=mariadb_user
-      - SYMFONY_DATABASE_NAME=bitnami_myapp
+      - SYMFONY_DATABASE_NAME=db_test
     volumes:
       - './treezor_test:/app'
+    container_name: symfony_container
     depends_on:
       - mariadb
 
