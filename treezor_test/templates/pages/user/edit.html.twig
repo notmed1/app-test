@@ -4,7 +4,7 @@
 	<div class="container">
 		<h1 class="mt-3 mb-3">Edit user</h1>
 
-		<form name="ingredient" method="post">
+		<form name="user" method="post">
 
 			<div class="form-group mt-2">
 				{{ form_label(form.first_name) }}
@@ -37,7 +37,7 @@
 			<div class="form-group">
 				{{ form_row(form._token) }}
 			</div>
-			
+
 			<button type="submit" id="user_submit" name="user[submit]" class="btn btn-success mt-4">Save changes</button>
 		</form>
 	</div>
