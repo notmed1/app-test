@@ -34,7 +34,7 @@ class UserController extends AbstractController
         return $this->render('pages/user/index.html.twig', [
             'controller_name' => 'UserController',
             'users' => $users,
-            'is_active' =>[
+            'is_active' => [
                 0 => 'active',
                 1 => 'disable'
             ]
@@ -89,7 +89,8 @@ class UserController extends AbstractController
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) 
+        {
             $user = $form->getData();
 
             $manager->persist($user);
