@@ -44,7 +44,7 @@ class UserController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */
-    #[Route('/user/new', name: 'user', methods: ['GET', 'POST'])]
+    #[Route('/user/new', name: 'user.new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $manager): Response
     {
         $user = new User();
@@ -60,7 +60,7 @@ class UserController extends AbstractController
 
             $this->addFlash(
                 'success',
-                'User added succefully !'
+                'User has been added succefully !'
             );
 
             return $this->redirectToRoute('user.index');
@@ -71,4 +71,36 @@ class UserController extends AbstractController
         ]);
     }
 
+    /**
+     * this controller allows to change a user
+     *
+     * @param User $user
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
+    #[Route('/user/edition/{id}', 'user.edit', methods: ['GET', 'POST'])]
+    public function edit(User $user, Request $request, EntityManagerInterface $manager): Response
+    {
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $form->getData();
+
+            $manager->persist($user);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                'User has been changed successfully !'
+            );
+
+            return $this->redirectToRoute('user.index');
+        }
+
+        return $this->render('pages/user/edit.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
 }

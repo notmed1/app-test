@@ -6,8 +6,21 @@
 {% block body %}
 
 	<div class="container">
+		{% for message in app.flashes('success') %}
+			<div class="alert alert-success mt-4">
+				{{ message }}
+			</div>
+		{% endfor %}
+
 		{% if not users is same as ([]) %}
-			<h1 class="mt-2">My users</h1>
+			<div class="row row-cols-2">
+				<h1 class="mt-2 col-md-4 ">List of users</h1>
+				<div class="mt-4 col-md-4 offset-md-4">
+					<a href="{{ path('user.new') }}" class="btn btn-success text-right">
+						Add a new user
+					</a>
+				</div>
+			</div>
 			<div class="count mt-4 mb-2">There is
 				{{users.getTotalItemCount}}
 				user(s) in total</div>
@@ -18,7 +31,8 @@
 						<th scope="col">Last name</th>
 						<th scope="col">Email</th>
 						<th scope="col">Birthday date</th>
-						<th scope="col">Is active</th>
+						<th scope="col">Status</th>
+						<th scope="col">Actions</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -29,6 +43,9 @@
 							<td>{{ user.email }}</td>
 							<td>{{ user.birthdayDate|date('d-m-Y') }}</td>
 							<td>{{ user.active }}</td>
+							<td>
+								<a href="{{ path('user.edit', { id: user.id }) }}" class="btn btn-info">Modifier</a>
+							</td>
 						</tr>
 					{% endfor %}
 

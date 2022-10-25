@@ -23,7 +23,7 @@ class AppFixtures extends Fixture
             $user = new User();
             $user->setLastName($this->faker->word(1))
             ->setFirstName($this->faker->word(1))
-            ->setEmail($this->faker->email())
+            ->setEmail($this->faker->unique()->email())
             ->setBirthdayDate($this->faker->dateTime())
             ->setActive($this->faker->boolean);
             $manager->persist($user);
