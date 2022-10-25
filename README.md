@@ -1,3 +1,3 @@
 # app-test
  
-This application allows to view modify and delete users.
+This application allows CRUD user entity.
