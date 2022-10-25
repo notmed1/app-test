@@ -27,7 +27,7 @@ class User
     private ?\DateTimeInterface $birthday_date = null;
 
     #[ORM\Column]
-    private ?bool $active = null;
+    private ?bool $active = false;
 
     public function getId(): ?int
     {
