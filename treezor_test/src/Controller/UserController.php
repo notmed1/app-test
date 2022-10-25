@@ -33,7 +33,11 @@ class UserController extends AbstractController
 
         return $this->render('pages/user/index.html.twig', [
             'controller_name' => 'UserController',
-            'users' => $users
+            'users' => $users,
+            'is_active' =>[
+                0 => 'active',
+                1 => 'disable'
+            ]
         ]);
     }
 
@@ -60,7 +64,7 @@ class UserController extends AbstractController
 
             $this->addFlash(
                 'success',
-                'User has been added succefully !'
+                'User has been added succefully!'
             );
 
             return $this->redirectToRoute('user.index');
@@ -72,14 +76,14 @@ class UserController extends AbstractController
     }
 
     /**
-     * this controller allows to change a user
+     * This controller allows to edit a user
      *
      * @param User $user
      * @param Request $request
      * @param EntityManagerInterface $manager
      * @return Response
      */
-    #[Route('/user/edition/{id}', 'user.edit', methods: ['GET', 'POST'])]
+    #[Route('/user/edit/{id}', 'user.edit', methods: ['GET', 'POST'])]
     public function edit(User $user, Request $request, EntityManagerInterface $manager): Response
     {
         $form = $this->createForm(UserType::class, $user);
@@ -93,7 +97,7 @@ class UserController extends AbstractController
 
             $this->addFlash(
                 'success',
-                'User has been changed successfully !'
+                'User has been changed successfully!'
             );
 
             return $this->redirectToRoute('user.index');
@@ -102,5 +106,26 @@ class UserController extends AbstractController
         return $this->render('pages/user/edit.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * This controller allows to delete a user
+     *
+     * @param EntityManagerInterface $manager
+     * @param User $user
+     * @return Response
+     */
+    #[Route('/user/delete/{id}', 'user.delete', methods: ['GET'])]
+    public function delete(EntityManagerInterface $manager, User $user): Response
+    {
+        $user->setActive(false);
+        $manager->flush();
+
+        $this->addFlash(
+            'success',
+            'User has been successfully deleted!'
+        );
+
+        return $this->redirectToRoute('user.index');
     }
 }

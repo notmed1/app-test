@@ -32,7 +32,8 @@
 						<th scope="col">Email</th>
 						<th scope="col">Birthday date</th>
 						<th scope="col">Status</th>
-						<th scope="col">Actions</th>
+						<th scope="col">Edit</th>
+						<th scope="col">Delete</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -42,9 +43,16 @@
 							<td>{{ user.lastName }}</td>
 							<td>{{ user.email }}</td>
 							<td>{{ user.birthdayDate|date('d-m-Y') }}</td>
-							<td>{{ user.active }}</td>
 							<td>
-								<a href="{{ path('user.edit', { id: user.id }) }}" class="btn btn-info">Modifier</a>
+								<span class="badge bg-{{ user.active ? "success" : "danger" }}">{{ user.active ? "active" : "disable" }}</span>
+							</td>
+							<td>
+								<a href="{{ path('user.edit', { id: user.id }) }}" class="btn btn-info">Edit</a>
+							</td>
+							<td>
+								{% if user.active %}
+									<a href="{{ path('user.delete', { id: user.id }) }}" class="btn btn-warning" onclick="return confirm('Are you sure?')">Delete</a>
+								{% endif %}
 							</td>
 						</tr>
 					{% endfor %}
