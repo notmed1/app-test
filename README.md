@@ -1,3 +1,3 @@
 # app-test
  
-This application allows CRUD user entity.
+This application allows to CRUD user entity.
