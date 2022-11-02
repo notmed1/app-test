@@ -30,3 +30,8 @@ services:
         class: App\Utility\DbProcessor
         tags:
             - {name: monolog.processor, handler: dbHandler}
+
+   #kernel.httpSubscriber:
+   #    class: App\EventListener\HttpSubscriber
+   #    tags:
+   #        - {name: kernel.event_subscriber}

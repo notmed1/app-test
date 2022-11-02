@@ -7,7 +7,6 @@ use App\Form\UserType;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,15 +23,13 @@ class UserController extends AbstractController
      * @return Response
      */
     #[Route('/user', name: 'user.index', methods: ['GET'])]
-    public function index(UserRepository $repository, PaginatorInterface $paginator, Request $request,LoggerInterface $dbLogger): Response
+    public function index(UserRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
         $users = $paginator->paginate(
             $repository->findAll(),
             $request->query->getInt('page', 1),
             10
         );
-
-        $dbLogger->info('this is another test');
 
         return $this->render('pages/user/index.html.twig', [
             'controller_name' => 'UserController',
@@ -92,8 +89,7 @@ class UserController extends AbstractController
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) 
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
 
             $manager->persist($user);
