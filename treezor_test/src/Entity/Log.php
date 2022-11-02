@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: LogRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Log
 {
     #[ORM\Id]
@@ -20,7 +21,7 @@ class Log
     #[ORM\Column(length: 255)]
     private ?string $route = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
     public function getId(): ?int
@@ -57,10 +58,9 @@ class Log
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    #[ORM\PrePersist]
+    public function setDate(): void
     {
-        $this->date = $date;
-
-        return $this;
+        $this->date = new \DateTimeImmutable();
     }
 }

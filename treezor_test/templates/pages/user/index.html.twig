@@ -7,7 +7,8 @@
 
 	<div class="container">
 		{% for message in app.flashes('success') %}
-			<div class="alert alert-success mt-4">
+			<div class="alert alert-dismissible alert-success mt-4">
+				<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
 				{{ message }}
 			</div>
 		{% endfor %}
@@ -44,7 +45,7 @@
 							<td>{{ user.email }}</td>
 							<td>{{ user.birthdayDate|date('d-m-Y') }}</td>
 							<td>
-								<span class="badge bg-{{ user.active ? "success" : "danger" }}">{{ user.active ? "active" : "disable" }}</span>
+								<span class="badge bg-{{ user.active ? " success" : " danger" }}">{{ user.active ? "active" : "disable" }}</span>
 							</td>
 							<td>
 								<a href="{{ path('user.edit', { id: user.id }) }}" class="btn btn-info">Edit</a>
